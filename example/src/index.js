@@ -581,7 +581,8 @@ export default class Presentation extends React.Component {
             </p>
             <p>
               The IAP actually uses the best practice we talked about earlier - it converts whatever credentials it gets
-              (e.g. TLS client certificate) to a easily consumale JSON Web Token that contains all relevant session information
+              (e.g. TLS client certificate) to a easily consumale JSON Web Token that contains all relevant session
+              information
             </p>
             <p>
               What's also great about this approach is that you can actually solve most of the authorization within the
@@ -600,9 +601,11 @@ export default class Presentation extends React.Component {
             borderRadius: '16px',
             width: '70%'
           }} src={images.iap.replace('/', '')} margin="40px auto 40px" />
-          <Text textColor="primary">
-            4. Protect all services with an Identity and Access Proxy
-          </Text>
+          <Appear>
+            <Text textColor="primary">
+              4. Protect all services with an Identity and Access Proxy
+            </Text>
+          </Appear>
           <Appear>
             <Text textColor="primary">
               5. Augment authorization with anomaly detection
@@ -614,41 +617,42 @@ export default class Presentation extends React.Component {
           <Heading size={1} caps fit textColor="tertiary">
             Conclusion
           </Heading>
-          <ListItem>
-            <List textColor="tertiary">
+          <List>
+            <ListItem textColor="tertiary">
               Centralize authentication and user management.
-            </List>
+            </ListItem>
             <Appear>
-              <List textColor="tertiary">
-                Exchange long living credentials (username + password) for temporary credentials (token or assertion) with limited scope.
-              </List>
+              <ListItem textColor="tertiary">
+                Exchange long living credentials (username + password) for temporary credentials (token or assertion)
+                with limited scope.
+              </ListItem>
             </Appear>
             <Appear>
-              <List textColor="tertiary">
+              <ListItem textColor="tertiary">
                 Consider combining pass-by-value and pass-by-reference tokens.
-              </List>
+              </ListItem>
             </Appear>
             <Appear>
-              <List textColor="tertiary">
+              <ListItem textColor="tertiary">
                 Consider federated protocols (e.g. OAuth2, OpenID Connect) for 3rd party access.
-              </List>
+              </ListItem>
             </Appear>
             <Appear>
-              <List textColor="tertiary">
+              <ListItem textColor="tertiary">
                 Use the browser as a trusted intermediary for authentication.
-              </List>
+              </ListItem>
             </Appear>
             <Appear>
-              <List textColor="tertiary">
+              <ListItem textColor="tertiary">
                 Model your environment with zero trust in mind.
-              </List>
+              </ListItem>
             </Appear>
             <Appear>
-              <List textColor="tertiary">
+              <ListItem textColor="tertiary">
                 Don't reinvent the wheel, use open standards & open source.
-              </List>
+              </ListItem>
             </Appear>
-          </ListItem>
+          </List>
         </Slide>
 
         {/*<Slide transition={['slide']} bgDarken={0.75} bgColor="secondary">*/}
@@ -672,7 +676,15 @@ export default class Presentation extends React.Component {
         {/*</ListItem>*/}
         {/*</Slide>*/}
 
-        <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary">
+        <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary"
+          notes={(
+            <div>
+              <p>
+                Ok, so let's look at some open source software next.
+              </p>
+            </div>
+          )}
+        >
           <Heading size={1} caps fit textColor="tertiary">
             Open Source
           </Heading>
@@ -681,7 +693,18 @@ export default class Presentation extends React.Component {
           </Heading>
         </Slide>
 
-        <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary">
+        <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary"
+          notes={(
+            <div>
+              <p>
+                The first software, called ORY Hydra, is a cloud native OAuth2 and OpenID Connect provider
+              </p>
+              <p>
+                It connects to any existing identity provider and issues short living credentials
+              </p>
+            </div>
+          )}
+        >
           <Heading size={2} caps textColor="tertiary">
             ORY Hydra
           </Heading>
@@ -705,7 +728,28 @@ export default class Presentation extends React.Component {
           </Heading>
         </Slide>
 
-        <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary">
+        <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary"
+          notes={(
+            <div>
+              <p>
+                ORY Oathkeeper is a Identity and Access Proxy modeled after the Google BeyondCorp Whitepaper
+              </p>
+              <p>
+                It converts credentials (e.g. TLS Client Certification) to JSON Web Tokens, more specifically so-called ID Tokens which is a standard
+              </p>
+              <p>
+                It's also able to apply RBAC, ACL and more complex Access Control Policies
+              </p>
+              <p>
+                It also uses machine learning for outlier detection
+              </p>
+              <p>
+                Not everything is done yet, for example TLS client certification and outlier detection are still in development
+              </p>
+              <p>but you can grap the preview on github</p>
+            </div>
+          )}
+        >
           <Heading size={2} caps textColor="tertiary">
             ORY Oathkeeper
           </Heading>
@@ -729,7 +773,15 @@ export default class Presentation extends React.Component {
           </Heading>
         </Slide>
 
-        <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary">
+        <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary"
+          notes={(
+            <div>
+              <p>
+                We're almost done - if you have questions regarding the technology or might have a project where something
+                what I talked about may fit in, don't hesitate to contact us at hi@ory.sh (sh like bash)
+              </p>
+            </div>
+          )}>
           <Heading size={1} textColor="tertiary">
             hi@ory.sh
           </Heading>
