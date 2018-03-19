@@ -82,19 +82,17 @@ export default class Presentation extends React.Component {
                 First I want to give you a quick overview of what you can expect from this session
               </p>
               <p>
-                We will explore some terminology and look at traditional access control mechanisms in the context of
+                In the introduction we will explore some terminology and look at traditional access control
+                mechanisms <strong>always</strong> in the context of
                 internet-facing applications.
               </p>
               <p>
-                I will walk alongside architectures that I've seen in my career and which are quite common.
+                We will tocuh some common security architectures which I have seen in my career and I will quickly go
+                through
+                some of their downsides and obviously best practices that have emerged over the last five years.
               </p>
               <p>
-                Alongside, I'll show you what problems exist in these systems and will show concepts that have evolved
-                as best practices to resolve those issues. You will most likely konw some of them.
-              </p>
-              <p>
-                And lastly I'll point you to some open source software that you can use in order to achieve some of
-                these
+                In the last slides I will introduce you to open source software which you can use to apply these best
                 practices.
               </p>
             </div>
@@ -117,12 +115,16 @@ export default class Presentation extends React.Component {
         <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary" notes={
           (
             <div>
-              <p>I started developing games when I was about 12 years old, and quickly got into web technologies</p>
-              <p>10 years ago, I started an education non profit which currently serves about 1 million unique users per
-                month</p>
-              <p>The second company I started - called Ory - focuses on my passion which is building defensive open
-                source software</p>
-              <p>Our technology has an extraordinary community, ~15k Stars on GitHub and is used by serious companies,
+              <p>Before we skip ahead I want to lost a few words on myself</p>
+              <p>I started developing games when I was about 12 years old, and quickly got into web technologies (2000 -
+                we had a 56k modem and then ISDN)</p>
+              <p>10 years ago (2008), I started an education (it's called serlo.org) non profit which currently serves
+                about 1 million unique users per month</p>
+              <p>There I developed two content management systems from scratch and learned a ton about software
+                development - learning by doing</p>
+              <p>I used that knowledge to work on open source software which was lacking at that time and those products
+                are now a company called ORY</p>
+              <p>We have an extraordinary open source community, ~15k Stars on GitHub and is used by serious companies,
                 including Deutsche Börse Labs, Lenovo, Honeywell, Westfield, Influence Health, Raspberry PI, Arduino,
                 ... and so on</p>
               <p>Part of my work is consulting, and this presentation is a brief - because we don't have much time -
@@ -153,8 +155,8 @@ export default class Presentation extends React.Component {
               <p>Here we have an officer at the border checking our passport. Typically, they check the image and
                 compare
                 it with my face. He authenticates your identity</p>
-              <p>Confirming your identity however is not equal to allowing you entry. After the identification, the
-                officer applies a set of rules or policies that allow or disallow you to enter the country.</p>
+              <p>Confirming your identity however is not equal to allowing you entry, which brings up to the second
+                concept</p>
             </div>
           )}>>
           <Heading size={1} caps fit textColor="tertiary">
@@ -195,8 +197,10 @@ export default class Presentation extends React.Component {
             <div>
               <p>Next we will check out some common access control design patterns and their issues</p>
               <p>Here we have a simple web server (website, blog) which users access through a browser</p>
-              <p>The user exchanges his username and password for a cookie which is stored in the browser</p>
-              <p>The cookie contains the user's id and maybe some other data as well</p>
+              <p>The user exchanges his username and password for a session which is typically stored in a browser
+                cookie</p>
+              <p>The cookie contains the user's id and maybe some other data as well and is used on whenever the user
+                access the server through the browser0</p>
               <p>This is the easiest access control you can find. There are countless frameworks and SDKs available for
                 implementing this and also adding authorization via RBAC or ACL</p>
               <p>You'll find this concept everywhere, especially in tools like wordpress</p>
@@ -212,14 +216,15 @@ export default class Presentation extends React.Component {
           (
             <div>
               <p>In larger businesses we typically have multiple services, developed by different people.</p>
-              <p>If we apply the previous pattern here, each service has it's own user management or somehow shares
+              <p>If we apply the previous pattern here, each service has either its own own user management or somehow
+                synchronises
                 the users with the other services, by accessing the same database for example</p>
-              <p>The issue here is that we get a ton of overhead for either the user, as he needs to register multiple
-                times,
-                or the developers, because they need to synch the data.</p>
-              <p>Another issue is that every service has access to the username and passwords of the businesses
-                users</p>
-              <p>A rogue developer is able to steal them by deploying an altered build or through some other means</p>
+              <p>This has either bad user experience, because the user needs multiple user accounts</p>
+              <p>or bad developer experience, because the developer needs to synch the data somehow</p>
+              <p>Also, the username and password combination is shared across all those services. If the user uses the
+                same password across all of his accounts
+                or you have some type of synchronization, every rogue developer can impersonate the user or sell the
+                data</p>
             </div>
           )}>>
           <Image style={{
@@ -232,16 +237,15 @@ export default class Presentation extends React.Component {
         <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary" notes={
           (
             <div>
-              <p>The obvious solution to this is called SSO (single sign on)</p>
+              <p>The probably well-known solution to this is called SSO (single sign on)</p>
               <p>Here, all user data is stored in a central repository called the identity provider</p>
-              <p>Users exchange their username and password at that identity provider and get temporary credentials
-                (SAML Assertion, Access Token)</p>
+              <p>Users exchange their username and password at that identity provider and get temporary credentials</p>
               <p>Now, the services don't need to synchronize the data because it's stored in a central place,
-                and they don't have access to the user's long living credentials (username + password), reducing the
-                likelyhood of internal
-                phishing</p>
-              <p>So the first tip is nothing new to Deutsche Börse but still important: Exchange username and passwords
-                for temporary credentials</p>
+                and they don't have access to the user's long living credentials (username + password). They only
+                get a token which is probably only valid for their service</p>
+              <p>At deutsche börse, you solve this with OpenAM if I recall correctly</p>
+              <p>So in conclusion, exchange user credentials for new, restricted, and temporary credentials (like a
+                token)</p>
             </div>
           )}>>
           <Image style={{
@@ -249,12 +253,26 @@ export default class Presentation extends React.Component {
             borderRadius: '16px',
             width: '70%'
           }} src={images.sso.replace('/', '')} margin="0px auto 40px" />
-          <Text textColor="primary">
-            1. Exchange user credentials for new and temporary credentials
-          </Text>
+          <Appear>
+            <Text textColor="primary">
+              1. Exchange user credentials for new, temporary credentials with limited scope
+            </Text>
+          </Appear>
         </Slide>
 
-        <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary">
+        <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary"
+          notes={(
+            <div>
+              <p>There are generally to types of tokens, pass-by-value and pass-by-reference</p>
+              <p>Here we see a pass-by-value token, more specifically a JSON Web Token</p>
+              <p>On the left you see it's encoded form - it's basically base64 encoded JSON</p>
+              <p>We have a header which says what cryptographic algorithm was used</p>
+              <p>We have the payload which is populated by the developer</p>
+              <p>And we have a signature which is generated using a secret or a public/private keypair</p>
+              <p>Only the person with the right secret can create the proper signature</p>
+            </div>
+          )}
+        >
           <Heading size={2} textColor="tertiary">
             Pass-by-value
           </Heading>
@@ -267,20 +285,27 @@ export default class Presentation extends React.Component {
         <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary" notes={(
           <div>
             <p>
-              Pass-by-value tokens, so for example SAML Assertions or JSON Web Tokens are widely used because the
-              information
-              is encoded in the token and validation is done through cryptographic means so no additional network
-              roundtrips
-              are needed
+              In general, pass-by-value tokens are a preferred choice by developers and you encounter them quite often.
+            </p><p>
+            Developers love these because the information is encoded in the token itself and easily extractable
+          </p>
+            <p>
+              It's also possible to verify the validity ("authentication") of the token without doing a network
+              roundtrip.
+              We can use a public key or a shared secret, depending on what was used to sign the token
             </p>
-            <p>Obviously, this also means that we can't revoke tokens on short notice but have to wait until such a
+            <p>Obviously, this also means that we can't revoke tokens on short notice but have to wait until the
               token expires. This can be very bad in situations where you need to revoke tokens immediately.</p>
-            <p>Another downside is that the token's payloads can be read by anone that has a token. While this might
-              not seem as an issue at first, I have learned that developers tend to put any sesion information in these
-              tokens. Some data is confidential or a security risk and the unknowningly expose that information to the
-              world</p>
-            <p>Only way to solve that is through encryption of the payloads</p>
-            <p>So examples include SAML Assertions and JSON Web Tokens</p>
+
+            <p>Another downside is that the token's payloads can be read by anyone that has a token. I started this
+              slide
+              by saying that developers love pass-by-value tokens. They love them because it's easy to share information
+              across several services. Well, some data might be confidential and (out of naivity) exposing that
+              information
+              is actually a security risk
+            </p>
+            <p>The only way to solve that is through encryption of the payloads, which increases complexity again</p>
+            <p>Popular examples for pass-by-value tokens are SAML Assertions and JSON Web Tokens</p>
           </div>
         )}
         >
@@ -314,17 +339,16 @@ export default class Presentation extends React.Component {
         </Slide>
 
         <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary" notes={(<div>
-          <p>Pass by reference tokens keep session data in a file or database only accessible to the server, and use an
-            identifier to find that data</p>
-          <p>This could be, for example, a uuid</p>
-          <p>This approach is superior to pass-by-value tokens because the information is confidential unless we decide
-            to expose it</p>
-          <p>And since we're doing a database lookup, real-time revokation is possible as well</p>
-          <p>This obviously means that we need a network roundtrip for validation</p>
+          <p>Pass-by-reference tokens are a unique ID</p>
+          <p>The server uses a database (or the filesystem) where the session's information is stored.</p>
+          <p>The information is totally opaque to the token holder and the server typically doesn't expose any session
+            related information</p>
+          <p>As we're doing a look up in a database or in the file system, real-time revokation (blacklisting) is
+            possible too</p>
+          <p>On the downside, we need a network roundtrip for validation (filesystems typically don't scale that
+            well)</p>
           <p>Also, no standard exists that defines these tokens as their implementation may be different in every
             system.</p>
-          <p>What we learned is that the superior approach is to combine these two. The outside world uses identifiers,
-            and these identifiers are mutated to JSON Web Tokens at the API gateway.</p>
         </div>)}>
           <Heading size={2} textColor="tertiary">
             Pass-by-reference
@@ -354,34 +378,57 @@ export default class Presentation extends React.Component {
           </List>
         </Slide>
 
+        <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary" notes={(<div>
+          <p>The best advice I can give you is to use both types. This applies especially to distributed systems
+            constructor "cloud native" environments where we deal with multiple services, API gateways, and so on.</p>
+          <p>
+            So what you do is issue pass-by-reference tokens to the outside world. That means that nobody can read
+            thos tokens and you can easily revoke them</p>
+          <p>Then, you convert these references to pass-by-value tokens at your API gateway</p>
+          <p>And get all the benefits of pass-by-value internally without the disadvantages related to revokation and
+            transparency</p>
+        </div>)}>
+          <Heading caps size={2} textColor="primary">
+            Combine both
+          </Heading>
+          <List>
+            <Appear>
+              <ListItem textColor="tertiary">Use pass-by-reference in the outside world</ListItem>
+            </Appear>
+            <Appear>
+              <ListItem textColor="tertiary">Convert pass-by-reference to pass-by-value at your API gateway</ListItem>
+            </Appear>
+            <Appear>
+              <ListItem textColor="tertiary">Use pass-by-value internally</ListItem>
+            </Appear>
+          </List>
+        </Slide>
+
         <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary" notes={
           (
             <div>
-              <p>Ok, so we covered that using a SSO provider is smart and that what types of tokens we have, but what
-              we discussed so far does actually no longer reflect how our IT infrastructures look as of today</p>
-              <p>Today, we have different access points, for example smart homes, self-driving cars, programmatic clients, native apps,
-              browser apps, and even third parties that use our APIs to conduct business.</p>
+              <p>Ok, we covered now what types of tokens exist, and that it's a good idea to have an SSO provider when
+                you have multiple services in your IT infrastructure.</p>
+              <p>That doesn't fully reflect todays world though, we were working under the assumption that we have only
+                on consumer (the browser)</p>
+              <p>Today though, we have IoT devices like smart homes or smart cars, mobile apps, pcs, browser apps,
+                native apps
+                and even third parties that do business on top of our APIs</p>
               <p>
-
+                Just having an SSO provider that allows us to "POST" the username and password to it and get a token
+                back
+                is maybe not such a good idea, especially when we look to 3rd parties.
               </p>
-
-
-              <p>Today there are a ton of potential consumers of your application</p>
-              <p>We have IoT devices, self-driving cars, mobile phones</p>
-              <p>We also have programmatic clients (e.g. cron jobs) that need access to APIs</p>
-              <p>Companies like aws, facebook, google taught us that you need to build platforms for others to use
-                to
-                maximize profit of your IT infrastructure</p>
-              <p>Therefore we also want to open up to third parties.</p>
-              <p>You all probably know the new regulations for finance where this is exactly what's happening as
-                well -
-                opening up to third parties</p>
-              <p>But in this world, it's a bit tricky to exchange a session cookie for username and passwords</p>
-              <p>a) we don't want to share the username and passwords of our users with third party companies</p>
-              <p>b) devices are maybe not secre enough to store these credentials for continous access</p>
-              <p>c) cookies are a bit tricky to handle for e.g. mobile clients - it's not impossible, just weird to
-                deal
-                with cookies outside of browsers</p>
+              <p>
+                Imagine a third party - for example my company - needing access to your users usernames and passwords
+                in order for me to be able to access the data from those users. That's ridiculous, right?
+              </p>
+              <p>
+                If you encounter such a complex environment, you might want to consider delegated protocols such as
+                OAuth2
+                and OpenID Connect on top of your existing authentication and authorization infrastructure (LDAP,
+                OpenAM, ...)
+              </p>
             </div>
           )}>>
           <Image style={{
@@ -389,13 +436,21 @@ export default class Presentation extends React.Component {
             borderRadius: '16px',
             width: '70%'
           }} src={images.sessionAllDevices.replace('/', '')} margin="0px auto 40px" />
+          <Appear>
+            <Text textColor="primary">
+              2. Consider federated protocols (e.g. OAuth2, OpenID Connect) for 3rd party access
+            </Text>
+          </Appear>
         </Slide>
 
         <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary" notes={
           (
             <div>
-              <p>The problem is that the clients have access to your client credentials</p>
-              <p>consider the following image. Here we have two mobile apps. The left is the "vendor" app you
+              <p>While we're at the topic of mobile authentication, I want to quickly go over this very important topic
+                as well,
+                because that is, in my opinion, one of the worst practices of the last years in terms of sign on
+                security</p>
+              <p>Consider the following images. Here we have two mobile apps. The left is the "vendor" app you
                 implemented</p>
               <p>the right one is a counterfeit app (for phishing) that I was able to sneak in the app store under a
                 very similar name</p>
@@ -421,10 +476,8 @@ export default class Presentation extends React.Component {
         <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary" notes={
           (
             <div>
-              <p>That's why it has become best practise to use the browser as a trusted intermediary for e.g. exchanging
-                credentials</p>
-              <p>The reason being that we have an address bar + SSL info available</p>
-              <p>Some users are still blind to this, but it provides at least some way of identifying where I log in</p>
+              <p>Now check this image, again the counterfeit app on the right, the legit on the left</p>
+              <p>Can you now spot the difference?</p>
             </div>
           )}>>
           <Image style={{
@@ -444,10 +497,15 @@ export default class Presentation extends React.Component {
         <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary" notes={
           (
             <div>
-              <p>That's why it has become best practise to use the browser as a trusted intermediary for e.g. exchanging
-                credentials</p>
-              <p>The reason being that we have an address bar + SSL info available</p>
+              <p>So please, use the browser as a trusted intermediary for authentication processes. Don't rely on native
+                UIs!</p>
               <p>Some users are still blind to this, but it provides at least some way of identifying where I log in</p>
+              <p>So a year ago I downloaded an app from stadtsparkasse. And I wasn't sure if that was actually from the
+                company
+                or a scam</p>
+              <p>It provided no way of me knowing where I log in (the legitimate website) and wether or not my data is
+                being phished</p>
+              <p>So I never used this app. Most users aren't that suspicious.</p>
             </div>
           )}>>
           <Image style={{
@@ -455,44 +513,31 @@ export default class Presentation extends React.Component {
             borderRadius: '16px',
             width: '70%'
           }} src={images.sso2.replace('/', '')} margin="0px auto 40px" />
-          <Text textColor="primary">
-            2. Use the browser as a trusted intermediary for authentication
-          </Text>
+          <Appear>
+            <Text textColor="primary">
+              3. Use the browser as a trusted intermediary for authentication
+            </Text>
+          </Appear>
         </Slide>
 
         <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary" notes={
           (
             <div>
-              <p>When a highly sophisticated APT attack named Operation Aurora occurred in 2009, Google began an
-                internal initiative to reimagine their security architecture with regards to how employees and devices
-                access internal applications.</p>
-              <p>Operation Aurora was a series of cyber attacks conducted by advanced persistent threats such as the
-                Elderwood Group based in Beijing, China, with ties to the People's Liberation Army.[2] First publicly
-                disclosed by Google on January 12, 2010, in a blog post,[1] the attacks began in mid-2009 and continued
-                through December 2009.[3]
+              <p>The last topic I want to touch is the BeyondCorp security framework developed at Google</p>
+              <p>In 2009 McAffee discovered a sophisticated APT (Advanced Persistent Threat) attack named operation
+                aurora.</p>
+              <p>The attack originated in Beijing and is associated to the chinese military</p>
+              <p>The attackers targeted Adobe, Rackspace, Yahoo, Symantec, Google, and others</p>
+              <p>
+                According to McAfee, the primary goal of the attack was to gain access to and potentially modify source
+                code repositories at these high tech, security and defense contractor companies.
               </p>
-              <p> The attack has been aimed at dozens of other organizations, of which Adobe Systems,[4] Juniper
-                Networks[5] and Rackspace[6] have publicly confirmed that they were targeted. According to media
-                reports, Yahoo, Symantec, Northrop Grumman, Morgan Stanley[7] and Dow Chemical[8] were also among the
-                targets.
-              </p><p>
-              As a result of the attack, Google stated in its blog that it plans to operate a completely uncensored
-              version of its search engine in China "within the law, if at all", and acknowledged that if this is not
-              possible it may leave China and close its Chinese offices.[1] Official Chinese sources claimed this was
-              part of a strategy developed by the U.S. government.[9]
-            </p><p>
-              The attack was named "Operation Aurora" by Dmitri Alperovitch, Vice President of Threat Research at cyber
-              security company McAfee. Research by McAfee Labs discovered that "Aurora" was part of the file path on the
-              attacker's machine that was included in two of the malware binaries McAfee said were associated with the
-              attack. "We believe the name was the internal name the attacker(s) gave to this operation," McAfee Chief
-              Technology Officer George Kurtz said in a blog post.[10]
-            </p><p>
-              According to McAfee, the primary goal of the attack was to gain access to and potentially modify source
-              code repositories at these high tech, security and defense contractor companies. "[The SCMs] were wide
-              open," says Alperovitch. "No one ever thought about securing them, yet these were the crown jewels of most
-              of these companies in many ways—much more valuable than any financial or personally identifiable data that
-              they may have and spend so much time and effort protecting."[11]
-            </p>
+              <p>[The SCMs] were wide
+                open," says Alperovitch. "No one ever thought about securing them, yet these were the crown jewels of
+                most of these companies in many ways—much more valuable than any financial or personally identifiable
+                data
+                thatthey may have and spend so much time and effort protecting."[11]
+              </p>
             </div>
           )}>>
           <Heading size={1} fit textColor="primary">
@@ -503,14 +548,17 @@ export default class Presentation extends React.Component {
         <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary" notes={
           (
             <div>
-              <p>In many enterprises, we have a trusted zone and a bridge/gateway for public traffic</p>
-              <p>The problem here is, besides installing e.g. VPN clients</p>
-              <p>At my university we used vpn to enter the lmu network, big painpoint for many to set up</p>
-              <p>Trusted zone is linked to e.g. perimiter</p>
-              <p>Google for example had this concept too</p>
-              <p>Then they got hacked, multiple users compromised and communications exposed</p>
-              <p>Was a potential state actor attack with inside help</p>
-              <p>Caused by lax security once inside private network</p>
+              <p>Before 2009, Google looked like this. Most companies still look like that today.</p>
+              <p>In that system we have like a trusted environment. Here, clients have priviledged access to the
+                internal resources</p>
+              <p>This security model has the concept of physical premises. If we plug the lan cable into our pc,
+                then we need to be priviledged because we're in the building, right?</p>
+              <p>For external traffic, we have a tight gateway which is typically a VPN proxy. There we need
+                to pass access control before we can act like we would if we were plugged in the LAN</p>
+              <p>Not only are VPNs notoriously painful to set up, and there are just so many devices around today</p>
+              <p>But let's come back to Aurora. Apparently, the attackers where able to get in the intranet
+                which lead to priviledged access to source code and configuration items which were unprotected as
+                sysadmins assumed that any access has to come from within the elevated environment</p>
             </div>
           )}>>
           <Image style={{
@@ -522,8 +570,29 @@ export default class Presentation extends React.Component {
 
         <Slide transition={['slide']} bgDarken={0.75} bgColor="secondary" notes={(
           <div>
-            <p>Talk about potential upsides, eg solving access control there</p>
-            <p>Validation with public key (eg saml, jwt)</p>
+            <p>Once the thread was eliminated, Google worked on an alternative that better suits todays needs with
+              regards
+              to bring your own device policies and Advanced Persistent Threats</p>
+            <p>So what they propose and use internally is the usage of an Identity & Access Proxy which is deployed
+              alongside any application that is accessible via the internet</p>
+            <p>
+              Also, there is no distinction between intranet and public net, every client has to properly authenticate
+              using the SSO provider, and pass access control in the IAP.
+            </p>
+            <p>
+              The IAP actually uses the best practice we talked about earlier - it converts whatever credentials it gets
+              (e.g. TLS client certificate) to a easily consumale JSON Web Token that contains all relevant session information
+            </p>
+            <p>
+              What's also great about this approach is that you can actually solve most of the authorization within the
+              proxy by specifying RBAC rules or ACL rules or other type of access control policies.
+            </p>
+            <p>
+              And lastly, a trend we're seeing and which we're also working on is anomaly detection. In this system, all
+              traffic passes through a gateway before reaching the server. The gateway has all the information on the
+              user's identity, the origin of the request, and the resources and permissions the request needs. This is
+              the perfect data for use in machine learning in the context of anomaly detection.
+            </p>
           </div>
         )}>
           <Image style={{
@@ -532,11 +601,11 @@ export default class Presentation extends React.Component {
             width: '70%'
           }} src={images.iap.replace('/', '')} margin="40px auto 40px" />
           <Text textColor="primary">
-            3. Protect all services with an Identity and Access Proxy
+            4. Protect all services with an Identity and Access Proxy
           </Text>
           <Appear>
             <Text textColor="primary">
-              4. Augment authorization with anomaly detection
+              5. Augment authorization with anomaly detection
             </Text>
           </Appear>
         </Slide>
@@ -547,11 +616,21 @@ export default class Presentation extends React.Component {
           </Heading>
           <ListItem>
             <List textColor="tertiary">
-              Centralize authentication and authorization in one component.
+              Centralize authentication and user management.
             </List>
             <Appear>
               <List textColor="tertiary">
-                Exchange long living credentials (username + password) for temporary credentials (token or assertion).
+                Exchange long living credentials (username + password) for temporary credentials (token or assertion) with limited scope.
+              </List>
+            </Appear>
+            <Appear>
+              <List textColor="tertiary">
+                Consider combining pass-by-value and pass-by-reference tokens.
+              </List>
+            </Appear>
+            <Appear>
+              <List textColor="tertiary">
+                Consider federated protocols (e.g. OAuth2, OpenID Connect) for 3rd party access.
               </List>
             </Appear>
             <Appear>
@@ -566,12 +645,7 @@ export default class Presentation extends React.Component {
             </Appear>
             <Appear>
               <List textColor="tertiary">
-                Use open standards.
-              </List>
-            </Appear>
-            <Appear>
-              <List textColor="tertiary">
-                Use open source where possible.
+                Don't reinvent the wheel, use open standards & open source.
               </List>
             </Appear>
           </ListItem>
