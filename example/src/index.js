@@ -120,10 +120,7 @@ export default class Presentation extends React.Component {
                 we had a 56k modem and then ISDN)</p>
               <p>10 years ago (2008), I started an education (it's called serlo.org) non profit which currently serves
                 about 1 million unique users per month</p>
-              <p>There I developed two content management systems from scratch and learned a ton about software
-                development - learning by doing</p>
-              <p>I used that knowledge to work on open source software which was lacking at that time and those products
-                are now a company called ORY</p>
+              <p>The second company I started, called Ory, develops open source software in the area of defensive open source software</p>
               <p>We have an extraordinary open source community, ~15k Stars on GitHub and is used by serious companies,
                 including Deutsche Börse Labs, Lenovo, Honeywell, Westfield, Influence Health, Raspberry PI, Arduino,
                 ... and so on</p>
@@ -681,6 +678,9 @@ export default class Presentation extends React.Component {
             <div>
               <p>
                 Ok, so let's look at some open source software next.
+              </p>
+              <p>
+                The technology I'll present are my works, the company I founded is maintaining them, doing marketing, and so on
               </p>
             </div>
           )}
