@@ -62,8 +62,10 @@ export default class Presentation extends React.Component {
           (
             <div>
               <p>
-                Hi, my name is Aeneas Rekkas and I want to introduce you to best practices that you can use to secure
-                your APIs in a future-proof way.
+                Hi, my name is Aeneas Rekkas
+              </p>
+              <p>
+                And this session is about future-proof api access control
               </p>
             </div>
           )}>
@@ -120,7 +122,8 @@ export default class Presentation extends React.Component {
                 we had a 56k modem and then ISDN)</p>
               <p>10 years ago (2008), I started an education (it's called serlo.org) non profit which currently serves
                 about 1 million unique users per month</p>
-              <p>The second company I started, called Ory, develops open source software in the area of defensive open source software</p>
+              <p>The second company I started, called Ory, develops open source software in the area of defensive open
+                source software</p>
               <p>We have an extraordinary open source community, ~15k Stars on GitHub and is used by serious companies,
                 including Deutsche Börse Labs, Lenovo, Honeywell, Westfield, Influence Health, Raspberry PI, Arduino,
                 ... and so on</p>
@@ -605,7 +608,7 @@ export default class Presentation extends React.Component {
           </Appear>
           <Appear>
             <Text textColor="primary">
-              5. Augment authorization with anomaly detection
+              5. Augment access control with anomaly detection
             </Text>
           </Appear>
         </Slide>
@@ -680,7 +683,8 @@ export default class Presentation extends React.Component {
                 Ok, so let's look at some open source software next.
               </p>
               <p>
-                The technology I'll present are my works, the company I founded is maintaining them, doing marketing, and so on
+                The technology I'll present are my works, the company I founded is maintaining them, doing marketing,
+                and so on
               </p>
             </div>
           )}
@@ -735,7 +739,8 @@ export default class Presentation extends React.Component {
                 ORY Oathkeeper is a Identity and Access Proxy modeled after the Google BeyondCorp Whitepaper
               </p>
               <p>
-                It converts credentials (e.g. TLS Client Certification) to JSON Web Tokens, more specifically so-called ID Tokens which is a standard
+                It converts credentials (e.g. TLS Client Certification) to JSON Web Tokens, more specifically so-called
+                ID Tokens which is a standard
               </p>
               <p>
                 It's also able to apply RBAC, ACL and more complex Access Control Policies
@@ -744,7 +749,8 @@ export default class Presentation extends React.Component {
                 It also uses machine learning for outlier detection
               </p>
               <p>
-                Not everything is done yet, for example TLS client certification and outlier detection are still in development
+                Not everything is done yet, for example TLS client certification and outlier detection are still in
+                development
               </p>
               <p>but you can grap the preview on github</p>
             </div>
@@ -777,7 +783,8 @@ export default class Presentation extends React.Component {
           notes={(
             <div>
               <p>
-                We're almost done - if you have questions regarding the technology or might have a project where something
+                We're almost done - if you have questions regarding the technology or might have a project where
+                something
                 what I talked about may fit in, don't hesitate to contact us at hi@ory.sh (sh like bash)
               </p>
             </div>
